@@ -1,0 +1,21 @@
+
+	Bparam2 Stuffs.
+	0 = Normal.
+	1 = Blue flames.
+	2 = Bouncy blue flames.
+	3 = Fire explodes into boucny blue flames.
+	4 = Fire explodes into more fire.
+	5 = Spawns explosion.
+	6 = Tripple Fire spawner.
+	7 = Bowser shockwave
+	(Use bowser 3 object bank or shockwave is invisible)
+	;;;--------------------------------------------------------;;;
+	Bparam3 Stuffs.
+	0 = Normal.
+	1 = Nonstop fire spitters.
+	;;;--------------------------------------------------------;;;
+	Extra note,
+	Patch increases BhvExplosion hitbox from
+	(/*Radius*/ 150, /*Height*/ 150, /*Downwards offset*/ 150)
+	(/*Radius*/ 300, /*Height*/ 300, /*Downwards offset*/ 300)
+	(/*Damage*/ 20 > 100)
