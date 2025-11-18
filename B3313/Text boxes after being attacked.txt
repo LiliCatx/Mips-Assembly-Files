@@ -1,0 +1,112 @@
+.orga 0xbcc88				;;;80301c88 <- ram
+addiu sp, sp, -0x18
+sw ra, 0x0014(sp)
+lui a0, 0x8036
+lw a0, 0x1160(a0)
+lui a2, 0x3d4c
+ori a2, a2, 0xcccd
+addiu a1, r0, 0x0000
+jal 0x802fa544
+addiu a0, a0, 0x0104
+beqz v0, anotherbranch
+nop
+lui a0, 0x8036
+lw a0, 0x1160(a0)
+lui a2, 0x3e4c
+ori a2, a2, 0xcccd
+lui a1, 0x4080
+jal 0x802fa544
+addiu a0, a0, 0x0030
+b anotherbranch2
+nop
+anotherbranch:
+lui t6, 0x8036
+lw t6, 0x1160(t6)
+lwc1 f4, 0x0030(t6)
+lwc1 f6, 0x0104(t6)
+sub.s f8, f4, f6
+swc1 f8, 0x0030(t6)
+anotherbranch2:
+lui t7, 0x8036
+lw t7, 0x1160(t7)
+lui at, 0x4080
+mtc1 at, f16
+lwc1 f10, 0x0030(t7)
+c.le.s f16, f10
+nop
+bc1f SuperLongAssBranch
+nop
+lui t8, 0x8036
+lw t8, 0x1160(t8)
+lw t9, 0x0154(t8)
+slti at, t9, 0x001f
+bnez at, abranchtoabranch
+nop
+lui t0, 0x8036
+lw t0, 0x1160(t0)
+lui t3, 0x8036
+addiu at, r0, 0x0001
+lw t1, 0x0184(t0)
+addiu t2, t1, 0xffff
+sw t2, 0x0184(t0)
+lw t3, 0x1160(t3)
+lw t4, 0x0184(t3)
+bne t4, at, anotherbranch3
+nop
+lui t6, 0x8036
+lw t6, 0x1160(t6)
+addiu t5, r0, 0x0004
+sw t5, 0x014c(t6)
+jal 0x802a05b4
+nop
+b abranchtoabranch
+nop
+anotherbranch3:
+lui t8, 0x8036
+lw t8, 0x1160(t8)
+addiu t7, r0, 0x0001
+sw t7, 0x014c(t8)
+lui t9, 0x8036
+lw t9, 0x1160(t9)
+lw t1, 0x00d4(t9)
+sw t1, 0x00c8(t9)
+lui t2, 0x8036
+lw t2, 0x1160(t2)
+addiu at, r0, 0x0002
+lw t0, 0x0184(t2)
+bne t0, at, abranchtoabranch
+nop
+lui a0, 0x502f
+jal 0x802ca1e0
+ori a0, a0, 0x6081
+lui at, 0x4120
+lui t3, 0x8036
+lw t3, 0x1160(t3)
+mtc1 at, f18
+nop
+swc1 f18, 0x00b8(t3)
+lui at, 0x428c
+lui t4, 0x8036
+lw t4, 0x1160(t4)
+mtc1 at, f4
+nop
+swc1 f4, 0x00b0(t4)
+abranchtoabranch:
+b somebullshit
+nop
+SuperLongAssBranch:
+lui t5, 0x8036
+lw t5, 0x1160(t5)
+sw r0, 0x0154(t5)
+somebullshit:
+lui t6, 0x8036
+lw t6, 0x1160(t6)
+lui a0, 0x8033
+addiu a0, a0, 0x2920
+jal 0x802fb938
+lw a1, 0x014c(t6)
+nop
+lw ra, 0x0014(sp)
+addiu sp, sp, 0x18
+jr ra
+nop
