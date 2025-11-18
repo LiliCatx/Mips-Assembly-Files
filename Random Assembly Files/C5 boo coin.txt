@@ -1,0 +1,8 @@
+.orga 0x67108
+addiu a0, r0, 0x00d7
+
+.orga 0x6711c
+addiu t3, r0, 0x0000
+
+.orga 0x671a8
+addiu a0, r0, 0x00d7

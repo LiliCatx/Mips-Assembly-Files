@@ -1,0 +1,124 @@
+;;;===================================================;;;
+;;;                    Spawner object                 ;;;
+;;;===================================================;;;
+.orga 0x               ;;;Rom Location;;;
+.dw 0x00060000         ;;;BEGIN_OBJ_LIST ;;;
+.dw 0x11014001         ;;;OR_INT oFlags  ;;;
+.dd 0x0C000000XXXXXXXX ;;;Custom_BHV_INIT;;;
+.dw 0x08000000         ;;;Begin_Loop     ;;;
+.dd 0x0C000000XXXXXXXX ;;;Custon_BHV_LOOP;;;
+.dw 0x09000000         ;;;End_Loop       ;;;
+;;;===================================================;;;
+;;;                    Custom_BHV_INIT                ;;;
+;;;===================================================;;;
+.orga 0x               ;;;Rom Location;;;
+addiu sp, sp, -0x38
+sw ra, 0x002c(sp)
+lui a0, 0xXXXX
+jal 0x8029FBDC         ;;;Count obj with bhv;;;
+addiu a0, a0, 0xXXXX   ;;;immediate unsigned custom behaviour XXXX0000 + 0000XXXX;;;
+sh v0, 0x0036(sp)
+lh t6, 0x0036(sp)
+bnez t6, branch1       ;;;Checks object count and if not 0 skip star spawn function;;;
+nop
+lui t7, 0x8036
+lw t7, 0x1160(t7)      ;;;object function 0x80361160, star spawn shit;;;
+lui a3, 0x1300
+addiu a3, a3, 0x3e3c   ;;;yup 13003e3c is bhvStar;;;
+lwc1 f4, 0x00a0(t7)
+or a1, r0, r0
+addiu a2, r0, 0x007a   ;;;Geo layout 0x7a (Model_star);;;
+trunc.w.s f6, f4
+or a0, t7, r0
+mfc1 t9, f6
+nop
+sw t9, 0x0010(sp)
+lwc1 f8, 0x00a4(t7)
+tranc.w.s f10, f8
+mfc1 t1, f10
+nop
+sw t1, 0x0014(sp)
+lwc1 f16, 0x00a8(t7)
+sw r0, 0x0024(sp)
+sw r0, 0x0020(sp)
+trunc.w.s f18, f16
+sw r0, 0x001c(sp)
+mfc1 t3, f18
+jal 0x08029E9AC        ;;;spawns object with x, y, z, rotation, yay floats;;;
+sw t3, 0x0018(sp)
+sw v0, 0x0030(sp)
+lui t4, 0x8036
+lw t4, 0x1160(t4)      ;;;object function, probably for bparam logic call;;;
+lw t6, 0x0030(sp)
+lw t5, 0x0188(t4)      ;;;Yup bparam logic;;;
+sw t5, 0x0188(t6)      ;;;Yup this one is just making sure star bparam = obj bparam;;;
+lui t8, 0x8036
+lw t8, 0x1160(t8)      ;;;oh hello object logic my old friend;;;
+sh r0, 0x0074(t8)      ;;;let me guess, counter logic;;;
+branch1:
+lh t9, 0x0036(sp)
+lui t7, 0x8036
+lw t7, 0x1160(t7)
+addiu t0, r0, 0x0005   ;;;yup counter logic, default is 5;;;
+subu t1, t0, t9
+sw t1, 0x00f4(t7)
+nop
+lw ra, 0x002c(sp)
+addiu sp, sp, 0x38
+jr ra
+nop
+;;;===================================================;;;
+;;;                    Custon_BHV_LOOP                ;;;
+;;;===================================================;;;
+.orga 0x                ;;;Rom Location;;;
+addiu sp, sp, -0x28
+sw ra, 0x001c(sp)
+sw s0, 0x0018(sp)
+lui t6, 0x8036
+lw t6, 0x1160(t6)       ;;;welcome back object logic;;;
+lw s0, 0x014c(t6)
+beqz s0, branch2
+nop
+addiu at, r0, 0x0001    ;;;action state 1?;;;
+beq s0, at, branch3
+nop
+b branch4
+nop
+branch2:
+lui t7, 0x8036
+lw t7, 0x1160(t7)       ;;;more object logic, idk what to tell you;;;
+addiu at, r0, 0x0005    ;;;switches to action state 1 if counter of 5 is met;;;
+lw t8, 0x00f4(t7)
+bne t8, at, branch5
+nop
+lui t0, 0x8036
+lw t0, 0x1160(t0)       ;;;you know i have to point out object logic lol;;;
+addiu t9, r0, 0x0001    ;;;yup it switching to action state 1;;;
+sw t9, 0x014c(t0)
+branch5:
+b branch4
+nop
+branch3:
+lui t1, 0x8036
+lw t1, 0x1160(t1)
+lw t2, 0x0154(t1)       ;;;object timer?;;;
+slti at, t2, 0x0003
+bnez at, branch4
+lui t3, 0x8036
+lw t3, 0x1160(t3)       ;;;yup more object logic;;;
+lwc1 f12, 0x00a0(t3)
+lwc1 f14, 0x00a4(t3)
+jal 0x802F2BD4          ;;;spawn cutscene star;;;
+lw a2, 0x00a8(t3)
+jal 0x802A37AC          ;;;particles;;;
+nop
+lui t4, 0x8036
+lw t4, 0x1160(t4)       ;;;more object shit;;;
+sh r0, 0x0074(t4)
+branch4:
+nop
+lw ra, 0x001c(sp)
+lw s0, 0x0018(sp)
+addiu sp, sp, 0x28
+jr ra
+nop
