@@ -1,0 +1,72 @@
+;-------------------------------------------------------------------------------------------------------;
+
+.org 0x1206AC0; (0x80406AC0 RAM) Multiple Star HUD Pause Menus Printing Function
+ADDIU SP, SP, 0xFFE8
+SW RA, 0x14(SP)
+
+LUI T0, 0x8040
+ADDIU A0, R0, 0x0015
+ADDIU A1, R0, 0xA1
+JAL 0x802D6554
+ADDIU A2, T0, 0x5210 ;prints HUD star 0
+
+LUI T0, 0x8034
+ADDIU A0, R0, 0x0025
+ADDIU A1, R0, 0xA1
+JAL 0x802D6554
+ADDIU A2, T0, 0x839C ;prints vanilla HUD X
+
+LUI T0, 0x8034
+LUI T1, 0x8040
+ADDIU A0, R0, 0x0035
+ADDIU A1, R0, 0xA1
+ADDIU A2, T0, 0x83A0
+JAL 0x802D62D8
+LB A3, 0x4FE0(T1)    ;prints HUD star 0 count
+
+
+LUI T0, 0x8040
+ADDIU A0, R0, 0x0015
+ADDIU A1, R0, 0x91
+JAL 0x802D6554
+ADDIU A2, T0, 0x5212 ;prints HUD star 1
+
+LUI T0, 0x8034
+ADDIU A0, R0, 0x0025
+ADDIU A1, R0, 0x91
+JAL 0x802D6554
+ADDIU A2, T0, 0x839C ;prints vanilla HUD X
+
+LUI T0, 0x8034
+LUI T1, 0x8040
+ADDIU A0, R0, 0x0035
+ADDIU A1, R0, 0x91
+ADDIU A2, T0, 0x83A0
+JAL 0x802D62D8
+LB A3, 0x4FE1(T1)    ;prints HUD star 1 count
+
+LUI T0, 0x8040
+ADDIU A0, R0, 0x0015
+ADDIU A1, R0, 0x81
+JAL 0x802D6554
+ADDIU A2, T0, 0x5214 ;prints HUD star 2
+
+LUI T0, 0x8034
+ADDIU A0, R0, 0x0025
+ADDIU A1, R0, 0x81
+JAL 0x802D6554
+ADDIU A2, T0, 0x839C ;prints vanilla HUD X
+
+LUI T0, 0x8034
+LUI T1, 0x8040
+ADDIU A0, R0, 0x0035
+ADDIU A1, R0, 0x81
+ADDIU A2, T0, 0x83A0
+JAL 0x802D62D8
+LB A3, 0x4FE2(T1)    ;prints HUD star 2 count
+
+LW RA, 0x14(SP)
+JR RA
+ADDIU SP, SP, 0x18
+
+;-------------------------------------------------------------------------------------------------------;
